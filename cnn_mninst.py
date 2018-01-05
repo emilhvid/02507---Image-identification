@@ -35,16 +35,9 @@ def cnn_model_fn(features, labels, mode): #we want features to be images, labels
   pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2, 2], strides=2)
 
   # Convolutional Layer #3 for better accuracy, not sure if I have to make another pool layer. I don't think it's necessary
-  conv3 = tf.layers.conv2d(
-      inputs=pool2,
-      filters=64,
-      kernel_size=[5, 5],
-      padding="same",
-      activation=tf.nn.relu)
-  pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=[2, 2], strides=2)
   # Dense Layer
-  pool3_flat = tf.reshape(pool3, [-1, 7 * 7 * 64])
-  dense = tf.layers.dense(inputs=pool3_flat, units=1024, activation=tf.nn.relu)
+  pool2_flat = tf.reshape(pool2, [-1, 7 * 7 * 64])
+  dense = tf.layers.dense(inputs=pool2_flat, units=1024, activation=tf.nn.relu)
   dropout = tf.layers.dropout(
       inputs=dense, rate=0.4, training=mode == tf.estimator.ModeKeys.TRAIN)
 
