@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import numpy as np
 import os
 from random import shuffle
@@ -7,22 +5,23 @@ from tqdm import tqdm
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import tflearn
-from tflearn.layers.conv import con_2d, max_pool_2d
+from tflearn.layers.conv import conv_2d, max_pool_2d
 from tflearn.layers.core import input_data, dropout, fully_connected
 from tflearn.layers.estimator import regression
 import cv2
 
 
+
 # Defining our traning and test set 
-TRAIN_DIR = "C:/Users/jose/Desktop/02507 Image Analysis/Project data"
-TEST_DIR = 'C:/Users/jose/Desktop/DoorTest'
+TRAIN_DIR = '.\Project_data\Door'
+TEST_DIR = '.\Test_data'
 IMG_SIZE = 100
-LR = le-3           # learning rate
+LR = 0.001           # learning rate
 MODEL_NAME = 'door-vs window'
 
 def create_label(image_name):
     """ Create an one -hot encoded vector from image name"""
-    word_label = image_name.split('.')[-3]
+    word_label = image_name.split('.')[0]
     if word_label == 'window':
         return np.array([1,0])
     elif word_label == 'door':
@@ -36,9 +35,9 @@ def create_train_data():
         img_data = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
         img_data = cv2.resize(img_data, (IMG_SIZE, IMG_SIZE))
         training_data.append([np.array(img_data), create_label(img)])
-    shuffle(traning_data)
-    np.save('train_data.npy', traning_data)
-    return traning_data
+    shuffle(training_data)
+    np.save('train_data.npy', training_data)
+    return training_data
 
 # split the dataset into two
 def create_test_data():
@@ -53,8 +52,8 @@ def create_test_data():
     return testing_data
 
 #if dataset is not created
-#train_data = create_tran_data()
-#test_data = reate_test_data()
+train_data = create_train_data()
+test_data = create_test_data()
 
 #if already created the test dataset
 train_data = np.load('train_data.npy')
@@ -110,13 +109,4 @@ for num, data in enumerate(test_data[:16]):
     y.axes.get_xaxis().set_visible(False)
     y.axes.get_yaxis().set_visible(False)
     plt.show()
-
-
-
-        
     
-    
-
-
-
-
