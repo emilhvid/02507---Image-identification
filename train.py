@@ -199,4 +199,4 @@ def train(num_iteration):
     total_iterations += num_iteration
 
 if __name__ == '__main__':
-    train(num_iteration=3000)
+    train(num_iteration=120)
