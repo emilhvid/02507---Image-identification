@@ -3,6 +3,7 @@ import tensorflow as tf
 import time
 from datetime import timedelta
 import math
+import os
 import random
 import numpy as np
 
@@ -16,14 +17,17 @@ set_random_seed(2)
 batch_size = 32
 
 #Prepare input data
-classes = ['dogs','cats']
-num_classes = len(classes)
+
 
 # 20% of the data will automatically be used for validation
 validation_size = 0.2
 img_size = 128
 num_channels = 3
 train_path='training_data'
+
+classes = os.listdir(train_path)
+print (classes)
+num_classes = len(classes)
 
 # We shall load all the training and validation images and labels into memory using openCV and use that during training
 data = dataset.read_train_sets(train_path, img_size, classes, validation_size=validation_size)
@@ -42,8 +46,6 @@ x = tf.placeholder(tf.float32, shape=[None, img_size,img_size,num_channels], nam
 y_true = tf.placeholder(tf.float32, shape=[None, num_classes], name='y_true')
 y_true_cls = tf.argmax(y_true, dimension=1)
 
-
-
 ##Network graph params
 filter_size_conv1 = 3 
 num_filters_conv1 = 32
@@ -61,8 +63,6 @@ def create_weights(shape):
 
 def create_biases(size):
     return tf.Variable(tf.constant(0.05, shape=[size]))
-
-
 
 def create_convolutional_layer(input,
                num_input_channels, 
@@ -92,8 +92,6 @@ def create_convolutional_layer(input,
 
     return layer
 
-    
-
 def create_flatten_layer(layer):
     #We know that the shape of the layer will be [batch_size img_size img_size num_channels] 
     # But let's get it from the previous layer.
@@ -106,7 +104,6 @@ def create_flatten_layer(layer):
     layer = tf.reshape(layer, [-1, num_features])
 
     return layer
-
 
 def create_fc_layer(input,          
              num_inputs,    
@@ -201,4 +198,5 @@ def train(num_iteration):
 
     total_iterations += num_iteration
 
-train(num_iteration=20)
+if __name__ == '__main__':
+    train(num_iteration=3000)
