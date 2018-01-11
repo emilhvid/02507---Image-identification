@@ -12,7 +12,7 @@ num_classes = len(classes)
 
 
 image_path=sys.argv[1]
-filename = dir_path +'/' +image_path
+filename = os.path.dirname(os.path.realpath(image_path))
 
 image_size=128
 num_channels=3

@@ -18,17 +18,21 @@ def load_train(train_path, image_size, classes):
         path = os.path.join(train_path, fields, '*g')
         files = glob.glob(path)
         for fl in files:
-            image = cv2.imread(fl)
-            image = cv2.resize(image, (image_size, image_size),0,0, cv2.INTER_LINEAR)
-            image = image.astype(np.float32)
-            image = np.multiply(image, 1.0 / 255.0)
-            images.append(image)
-            label = np.zeros(len(classes))
-            label[index] = 1.0
-            labels.append(label)
-            flbase = os.path.basename(fl)
-            img_names.append(flbase)
-            cls.append(fields)
+            try:    
+                image = cv2.imread(fl)
+                image = cv2.resize(image, (image_size, image_size),0,0, cv2.INTER_LINEAR)
+                image = image.astype(np.float32)
+                image = np.multiply(image, 1.0 / 255.0)
+                images.append(image)
+                label = np.zeros(len(classes))
+                label[index] = 1.0
+                labels.append(label)
+                flbase = os.path.basename(fl)
+                img_names.append(flbase)
+                cls.append(fields)
+            except:
+                print('can not load file '+fl)
+                pass
     images = np.array(images)
     labels = np.array(labels)
     img_names = np.array(img_names)
