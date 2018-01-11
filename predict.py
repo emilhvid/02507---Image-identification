@@ -6,6 +6,11 @@ import sys,argparse
 
 # First, pass the path of the image
 dir_path = os.path.dirname(os.path.realpath(__file__))		  
+TRAIN_DIR=dir_path+'/training_data'
+classes = os.listdir(TRAIN_DIR)
+num_classes = len(classes)
+
+
 image_path=sys.argv[1]
 filename = dir_path +'/' +image_path
 
@@ -39,16 +44,13 @@ y_pred = graph.get_tensor_by_name("y_pred:0")
 ## Let's feed the images to the input placeholders
 x= graph.get_tensor_by_name("x:0") 
 y_true = graph.get_tensor_by_name("y_true:0") 
-y_test_images = np.zeros((1, 6)) 
+y_test_images = np.zeros((1, num_classes)) 
 
 ### Creating the feed_dict that is required to be fed to calculate y_pred 
 feed_dict_testing = {x: x_batch, y_true: y_test_images}
 result=sess.run(y_pred, feed_dict=feed_dict_testing)
 print(result)
 # result is of this format [probabiliy_of_rose probability_of_sunflower]
-TRAIN_DIR=dir_path+'/training_data'
-classes = os.listdir(TRAIN_DIR)
-num_classes = len(classes)
 res=[]
 for i in range(0,num_classes):
     res=res+[(result[0][i],classes[i])]
