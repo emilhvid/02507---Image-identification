@@ -17,13 +17,14 @@ set_random_seed(2)
 batch_size = 32
 
 #Prepare input data
+dir_path = os.path.dirname(os.path.realpath(__file__))		  
 
 
 # 20% of the data will automatically be used for validation
 validation_size = 0.2
 img_size = 128
 num_channels = 3
-train_path='training_data'
+train_path=dir_path+'/training_data'
 
 classes = os.listdir(train_path)
 print (classes)
@@ -194,7 +195,7 @@ def train(num_iteration):
             epoch = int(i / int(data.train.num_examples/batch_size))    
             
             show_progress(epoch, feed_dict_tr, feed_dict_val, val_loss)
-            saver.save(session, 'model\dogs-cats-model') 
+            saver.save(session, dir_path+' /model/dogs-cats-model') 
 
     total_iterations += num_iteration
 

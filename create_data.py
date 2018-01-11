@@ -56,7 +56,9 @@ def process_data(threadName, directory, q):
 # Create two threads as follows
 threadList = ["Thread-1", "Thread-2", "Thread-3"]
 fileList = []
-directory = '.\Imagesets'
+dir_path = os.path.dirname(os.path.realpath(__file__))		  
+
+directory = dir_path + '\Imagesets'
 
 try:    
     for file in os.listdir(directory):
@@ -64,7 +66,6 @@ try:
 except:
    print ("Error: unable to start thread")
 
-print (fileList)
 queueLock = threading.Lock()
 workQueue = queue.Queue(10)
 threads = []
